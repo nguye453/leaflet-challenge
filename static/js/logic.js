@@ -9,11 +9,13 @@ function createFeatures(earthquakeData)
 {
     function onEachFeature(feature, layer) 
     {
-        layer.bindPopup("<h3 align='center'>" + feature.properties.place +
-            "</h3><hr><p><u>Occurrence:</u> " + new Date(feature.properties.time) + "</p>" +
-            "</h3><p><u>Magnitude:</u> " + feature.properties.mag + "</p>" +
-            "</h3><p><u>Depth:</u> " + feature.geometry.coordinates[2] + "</p>");
-            // ADD MORE DATA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        layer.bindPopup("<h3>" + feature.properties.place +
+            "</h4><hr><p><u>Occurrence</u>: " + new Date(feature.properties.time) + "</p>" +
+            "</h4><p><u>Magnitude</u>: " + feature.properties.mag + "</p>" +
+            "</h4><p><u>Depth</u>: " + feature.geometry.coordinates[2] + "</p>" +
+            "</h4><p><u>Distance from station</u>: " + feature.properties.dmin + "</p>" +
+            "</h4><p><u>Alert Level</u>: " + feature.properties.alert + "*</p>" + 
+            "<i>*ALERT LEVELS: green -> yellow -> orange -> red</i>");
     }
 
     var earthquakes = L.geoJSON(earthquakeData, 
@@ -22,7 +24,7 @@ function createFeatures(earthquakeData)
         pointToLayer: function (feature, latlng) 
         {
             var markerStyling = {
-                radius: (5 * feature.properties.mag),
+                radius: (4.5 * feature.properties.mag),
                 fillColor: getColor(feature.geometry.coordinates[2]),
                 color: "black",
                 weight: 0.5,
@@ -60,7 +62,7 @@ function createMap(earthquakes)
         depthLevels = [-10, 10, 30, 50, 70, 90],
         labels = [];
   
-        div.innerHTML+='Depth<br><hr>'
+        div.innerHTML += 'Depth<br><hr>'
     
         for (var i = 0; i < depthLevels.length; i++) 
         {
